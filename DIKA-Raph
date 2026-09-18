@@ -1,65 +1,49 @@
-"""
-Program Penghitung Total Hasil Panen
-Sistem sederhana untuk mencatat dan menghitung total hasil panen dari beberapa lahan/komoditas.
-"""
-
-
-def input_data_panen():
-    """Meminta pengguna memasukkan data hasil panen."""
-    data_panen = []
-    print("=== Input Data Hasil Panen ===")
-    print("(Ketik 'selesai' pada nama komoditas untuk mengakhiri input)\n")
-
-    while True:
-        nama = input("Nama komoditas/lahan: ").strip()
-        if nama.lower() == "selesai":
-            break
-
-        try:
-            jumlah = float(input(f"Jumlah hasil panen '{nama}' (kg): "))
-            if jumlah < 0:
-                print("Jumlah tidak boleh negatif. Coba lagi.\n")
-                continue
-        except ValueError:
-            print("Input tidak valid, harus berupa angka. Coba lagi.\n")
-            continue
-
-        data_panen.append({"nama": nama, "jumlah": jumlah})
-        print(f"Data '{nama}' sebesar {jumlah} kg berhasil ditambahkan.\n")
-
-    return data_panen
-
-
-def hitung_total(data_panen):
-    """Menghitung total keseluruhan hasil panen."""
-    return sum(item["jumlah"] for item in data_panen)
-
-
 def tampilkan_ringkasan(data_panen):
     """Menampilkan ringkasan hasil panen dalam bentuk tabel sederhana."""
     if not data_panen:
         print("\nTidak ada data hasil panen yang tercatat.")
         return
-
+ 
     print("\n=== Ringkasan Hasil Panen ===")
     print(f"{'No':<4}{'Komoditas/Lahan':<25}{'Jumlah (kg)':>12}")
     print("-" * 41)
-
+ 
     for i, item in enumerate(data_panen, start=1):
         print(f"{i:<4}{item['nama']:<25}{item['jumlah']:>12.2f}")
-
+ 
     total = hitung_total(data_panen)
     print("-" * 41)
     print(f"{'Total':<29}{total:>12.2f}")
-
+ 
     rata_rata = total / len(data_panen)
     print(f"\nRata-rata hasil panen per komoditas/lahan: {rata_rata:.2f} kg")
-
-
+ 
+    tampilkan_diskon(total)
+ 
+ 
+def tampilkan_diskon(total):
+    """Menanyakan dan menampilkan hasil perhitungan diskon (opsional)."""
+    jawaban = input("\nApakah ingin menghitung diskon dari total hasil panen? (y/n): ").strip().lower()
+    if jawaban != "y":
+        return
+ 
+    try:
+        persen_diskon = float(input("Masukkan persentase diskon (%): "))
+        nilai_diskon, total_setelah_diskon = hitung_diskon(total, persen_diskon)
+    except ValueError as e:
+        print(f"Input tidak valid: {e}")
+        return
+ 
+    print("\n=== Hasil Perhitungan Diskon ===")
+    print(f"Total sebelum diskon : {total:.2f} kg")
+    print(f"Diskon ({persen_diskon:.1f}%)      : {nilai_diskon:.2f} kg")
+    print(f"Total setelah diskon : {total_setelah_diskon:.2f} kg")
+ 
+ 
 def main():
     data_panen = input_data_panen()
     tampilkan_ringkasan(data_panen)
-
-
+ 
+ 
 if __name__ == "__main__":
     main()
