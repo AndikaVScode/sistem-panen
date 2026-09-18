@@ -39,5 +39,5 @@ def hitung_diskon(total, persen_diskon):
  
     nilai_diskon = total * (persen_diskon / 100)
     total_setelah_diskon = total - nilai_diskon
-    return nilai_diskon, total_setelah_
+    return nilai_diskon, total_setelah_diskon
 
