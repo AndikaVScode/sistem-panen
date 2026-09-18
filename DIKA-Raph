@@ -58,7 +58,7 @@ def tampilkan_ringkasan(data_panen):
 
 def main():
     data_panen = input_data_panen()
-    tampilkan_ringkasan(data_panen)
+    tampilkan_ringkasan
 
 
 if __name__ == "__main__":
